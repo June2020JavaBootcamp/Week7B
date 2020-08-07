@@ -26,54 +26,57 @@ public class DataLoader implements CommandLineRunner {
         roleRepository.save(adminRole1);
         roleRepository.save(adminRole2);
 
+        String imageUrl = "https://res.cloudinary.com/dxiriemba/image/upload/v1596835315/theHungerGame_rxbd1g.jpg";
+
         Category category = new Category();
         category.setName("Fiction");
         categoryRepository.save(category);
         Book book1 = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
-                "Suzanne Collins", 456, 2015,"", false, category);
+                "Suzanne Collins", 456, 2015,imageUrl, false, category);
 
         category = new Category();
         category.setName("Poetry");
         categoryRepository.save(category);
         Book book2 = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
-                "Suzanne Collins", 456, 2015,"", false, category);
+                "Suzanne Collins", 456, 2015,imageUrl, false, category);
 
         category = new Category();
         category.setName("Drama");
         categoryRepository.save(category);
         Book book3 = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
-                "Suzanne Collins", 456, 2015,"", false, category);
+                "Suzanne Collins", 456, 2015,imageUrl, false, category);
 
         category = new Category();
         category.setName("Prose");
         categoryRepository.save(category);
+
         Book book4 = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
-                "Suzanne Collins", 456, 2015,"", false, category);
+                "Suzanne Collins", 456, 2015,imageUrl, false, category);
 
         category = new Category();
         category.setName("Nonfiction");
         categoryRepository.save(category);
         Book book5= new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
-                "Suzanne Collins", 456, 2015,"", false, category);
+                "Suzanne Collins", 456, 2015,imageUrl, false, category);
 
         category = new Category();
         category.setName("fantasy");
         categoryRepository.save(category);
         Book book = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
-                "Suzanne Collins", 456, 2015,"", false, category);
+                "Suzanne Collins", 456, 2015,imageUrl, false, category);
 
         category = new Category();
         category.setName("romance");
         categoryRepository.save(category);
         Book book6 = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
-                "Suzanne Collins", 456, 2015,"", false, category);
+                "Suzanne Collins", 456, 2015,imageUrl, false, category);
 
         category = new Category();
         category.setName("science fiction");
         categoryRepository.save(category);
 
         Book book7 = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
-                "Suzanne Collins", 456, 2015,"", false, category);
+                "Suzanne Collins", 456, 2015,imageUrl, false, category);
 
         bookRepository.save(book);
         bookRepository.save(book1);
