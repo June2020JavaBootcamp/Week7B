@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="base :: metaTags"></div>
+
+    <div th:replace="base :: BootStrapAndMainCSSLinks"></div>
+    <title>Registration</title>
+</head>
+<body>
+
+    <div th:replace="base :: navbar"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h4>New user Registration</h4>
+
+                <form th:action="@{/processregister}" th:object="${user}" method="post">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label> First Name
+                        <input type="text" placeholder="First Name" id="firstName" class="form-control"
+                               th:field="*{firstName}">
+
+                        <mark><strong>
+                            <span th:if="${#fields.hasErrors('firstName')}"
+                                  th:errors="*{firstName}"></span>
+                        </strong></mark> <br>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" class="form-control" placeholder="Last Name"
+                               th:field="*{lastName}" />
+                        <mark><strong>
+                            <span th:if="${#fields.hasErrors('lastName')}"
+                                  th:errors="*{lastName}"> </span>
+                        </strong></mark>
+                        <br/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="email@domain.com"
+                               th:field="*{email}"/>
+                        <mark><strong>
+                            <span th:if="${#fields.hasErrors('email')}"
+                                th:errors="*{email}"> </span>
+                        </strong></mark>
+                        <br/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" class="form-control" placeholder="Username"
+                               th:field="*{username}" />
+                        <mark><strong>
+                            <span th:if="${#fields.hasErrors('username')}"
+                                th:errors="*{username}"> </span>
+                        </strong></mark>
+                        <br/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="text" id="password" class="form-control" placeholder="Password"
+                               th:field="*{password}"/>
+                        <mark><strong>
+                            <span th:if="${#fields.hasErrors('password')}"
+                                th:errors="*{password}"> </span>
+                        </strong></mark>
+                        <span id="password-error-message"></span>
+                        <br/>
+                    </div>
+
+                    <button type="submit" class="btn btn-info">Register</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:replace="base :: BootStrapScripts"></div>
+    <!--Validation JavaScript-->
+    <script th:src="@{/js/validation.js}"></script>
+</body>
+</html>
