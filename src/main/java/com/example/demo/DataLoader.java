@@ -13,29 +13,77 @@ public class DataLoader implements CommandLineRunner {
     private RoleRepository roleRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
     public void run(String... args) {
-//        User user = new User("bart", "bart@domain.com", "bart",
-//                "Bart", "Simpson", true);
-//        Role userRole = new Role("bart", "ROLE_USER");
-//        userRepository.save(user);
-
-//        roleRepository.save(userRole);
-        User admin = new User("super", "super@domain.com", "super",
+        User admin = new User("admin", "super@domain.com", "admin",
                 "Super", "Hero", true);
 
-        Role adminRole1 = new Role("super", "ROLE_ADMIN");
-        Role adminRole2 = new Role("super", "ROLE_USER");
+        Role adminRole1 = new Role("admin", "ROLE_ADMIN");
+        Role adminRole2 = new Role("admin", "ROLE_USER");
         userRepository.save(admin);
         roleRepository.save(adminRole1);
         roleRepository.save(adminRole2);
 
-        Category category1 = new Category();
-        category1.setName("Fiction");
-        Category category2 = new Category();
-        category2.setName("Non Fiction");
-        categoryRepository.save(category1);
-        categoryRepository.save(category2);
+        Category category = new Category();
+        category.setName("Fiction");
+        categoryRepository.save(category);
+        Book book1 = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
+                "Suzanne Collins", 456, 2015,"", false, category);
+
+        category = new Category();
+        category.setName("Poetry");
+        categoryRepository.save(category);
+        Book book2 = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
+                "Suzanne Collins", 456, 2015,"", false, category);
+
+        category = new Category();
+        category.setName("Drama");
+        categoryRepository.save(category);
+        Book book3 = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
+                "Suzanne Collins", 456, 2015,"", false, category);
+
+        category = new Category();
+        category.setName("Prose");
+        categoryRepository.save(category);
+        Book book4 = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
+                "Suzanne Collins", 456, 2015,"", false, category);
+
+        category = new Category();
+        category.setName("Nonfiction");
+        categoryRepository.save(category);
+        Book book5= new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
+                "Suzanne Collins", 456, 2015,"", false, category);
+
+        category = new Category();
+        category.setName("fantasy");
+        categoryRepository.save(category);
+        Book book = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
+                "Suzanne Collins", 456, 2015,"", false, category);
+
+        category = new Category();
+        category.setName("romance");
+        categoryRepository.save(category);
+        Book book6 = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
+                "Suzanne Collins", 456, 2015,"", false, category);
+
+        category = new Category();
+        category.setName("science fiction");
+        categoryRepository.save(category);
+
+        Book book7 = new Book("9867664", "The Hunger Games (The Hunger Games, #1)",
+                "Suzanne Collins", 456, 2015,"", false, category);
+
+        bookRepository.save(book);
+        bookRepository.save(book1);
+        bookRepository.save(book2);
+        bookRepository.save(book3);
+        bookRepository.save(book4);
+        bookRepository.save(book5);
+        bookRepository.save(book6);
+        bookRepository.save(book7);
+
     }
 
 

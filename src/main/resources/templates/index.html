@@ -11,32 +11,59 @@
 
 <div th:replace="base :: navbar"></div>
 
+
+
 <div class="container">
     <div class="row">
         <div class="col">
+            <ul th:each="category : ${categories}" class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center active">
+                    <a th:href="@{/category/details/{id} (id=${category.id})}"
+                       class="list-group-item list-group-item-action active">
+                        <Strong>[[${category.name}]]</Strong>
+                    </a>
+                    <span class="badge badge-primary badge-pill"> [[${category.books.size()}]]</span>
+                </li>
+                <li class="list-group-item" th:each="book : ${category.books}">
+                    <div class="row">
+                        <div class="col align-self-center">
+                            <span> [[${book.title}]] | By:[[${book.author}]] </span>
+                        </div>
 
-            <p th:if="${message}">[[${message}]]</p>
+                        <div class="col float-right list-group list-group-horizontal list-group-flush">
 
-            <p>List of All Book in our Library DataBase</p>
+                            <a th:href="@{'/book/details?id=' + ${book.id}}"
+                               class="list-group-item list-group-item-action flex-fill vud-link">
+                                <button type="button" class="btn btn-info vud-btn">View Details</button>
+                            </a>
+                            <a sec:authorize="hasRole('ROLE_ADMIN')"
+                               th:href="@{/book/update/{id} (id=${book.id})}"
+                               class="list-group-item list-group-item-action flex-fill vud-link">
+                                <button type="button" class="btn btn-warning vud-btn">Update</button>
+                            </a>
+                            <a sec:authorize="hasRole('ROLE_ADMIN')" th:if="${!book.outOfStock}"
+                               th:href="@{/book/outOfStock/{id}?details=false (id=${book.id})}"
+                               class="list-group-item list-group-item-action flex-fill vud-link">
+                                <button type="button" class="btn btn-success vud-btn">Mark In Stock</button>
+                            </a>
+                            <a sec:authorize="hasRole('ROLE_ADMIN')" th:if="${book.outOfStock}"
+                               th:href="@{/book/outOfStock/{id}?details=false (id=${book.id})}"
+                               class="list-group-item list-group-item-action flex-fill vud-link">
+                                <button type="button" class="btn btn-danger vud-btn">Mark Out of Stock</button>
+                            </a>
+                        </div>
+                    </div>
 
-            <div th:each="category : ${categories}">
-                <p>[[${category.name}]]</p>
-                <div th:each="book : ${category.books}">
-                    <p> ISBN: [[${book.ISBN}]]</p>
-                    <p> Title: [[${book.title}]]</p>
-                    <p> Author: [[${book.author}]]</p>
-                    <p> Category: [[${book.category.name}]]</p>
-                    <p> Quantity: [[${book.quantity}]]</p>
-                    <p> Year: [[${book.year}]]</p>
+                </li>
 
-                    <img th:src="${book.image}" alt="File">
-                    <hr>
-                </div>
-            </div>
+            </ul>
+            <br>
+
 
         </div>
     </div>
 </div>
+
 
 
 <div th:replace="base :: BootStrapScripts"></div>

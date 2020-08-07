@@ -21,6 +21,18 @@ public class Book {
 
     public Book () {}
 
+    public Book(String ISBN, String title, String author, long quantity,
+                int year, String image, boolean outOfStock, Category category) {
+        this.ISBN = ISBN;
+        this.title = title;
+        this.author = author;
+        this.quantity = quantity;
+        this.year = year;
+        this.image = image;
+        this.outOfStock = outOfStock;
+        this.category = category;
+    }
+
     public long getId() {
         return id;
     }
@@ -83,5 +95,13 @@ public class Book {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public boolean getOutOfStock() {
+        return outOfStock;
+    }
+
+    public void setOutOfStock(boolean outOfStock) {
+        this.outOfStock = outOfStock;
     }
 }

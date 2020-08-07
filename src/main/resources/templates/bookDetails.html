@@ -14,13 +14,33 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h2>Displaying cloudinary file</h2>
+            <h2>Book details: </h2>
 
-            <div th:each="resume : ${resumes}">
-                <div th:if="${resume.fileUrl != null}">
-                    <p>Number of Page => [[${resume.numberOfPages}]]</p>
-                    <img th:src="${resume.fileUrl}" alt="File">
+                    <p> ISBN: [[${book.ISBN}]]</p>
+                    <p> Title: [[${book.title}]]</p>
+                    <p> Author: [[${book.author}]]</p>
+                    <p> Category: [[${book.category.name}]]</p>
+                    <p> Quantity: [[${book.quantity}]]</p>
+                    <p> Year: [[${book.year}]]</p>
+
+                    <img th:src="${book.image}" alt="File">
                     <hr>
+
+            <a sec:authorize="hasRole('ROLE_ADMIN')"
+               th:href="@{/book/update/{id} (id=${book.id})}"
+               class="list-group-item list-group-item-action flex-fill vud-link">
+                <button type="button" class="btn btn-warning vud-btn">Update</button>
+            </a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" th:if="${!book.outOfStock}"
+               th:href="@{/book/outOfStock/{id}?details=false (id=${book.id})}"
+               class="list-group-item list-group-item-action flex-fill vud-link">
+                <button type="button" class="btn btn-success vud-btn">Mark In Stock</button>
+            </a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" th:if="${book.outOfStock}"
+               th:href="@{/book/outOfStock/{id}?details=false (id=${book.id})}"
+               class="list-group-item list-group-item-action flex-fill vud-link">
+                <button type="button" class="btn btn-danger vud-btn">Mark Out of Stock</button>
+            </a>
                 </div>
             </div>
         </div>

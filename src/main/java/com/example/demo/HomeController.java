@@ -88,10 +88,22 @@ public class HomeController {
 
     //    Page to add a Book
     @RequestMapping("/book/add")
-    public String addActor(Model model) {
+    public String addBook(Model model) {
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("book", new Book());
         model.addAttribute("submit", "Add");
+        model.addAttribute("categories", categories);
+
+        return "addBook";
+    }
+    //    Page to Update a Book
+    @RequestMapping("/book/update/{id}")
+    public String updateBook(@PathVariable long id, Model model) {
+        Iterable<Category> categories = categoryRepository.findAll();
+        Book book = bookRepository.findById(id).get();
+
+        model.addAttribute("book", book);
+        model.addAttribute("submit", "Update");
         model.addAttribute("categories", categories);
 
         return "addBook";
@@ -125,15 +137,37 @@ public class HomeController {
     }
 
     //    Page to view Book details
-    @RequestMapping("/book/details/{id}")
-    public String viewActor(@PathVariable long id,  Model model) {
+    @RequestMapping("/book/details")
+    public String viewBook(@RequestParam("id") long id,  Model model) {
         Book book = bookRepository.findById(id).get();
         model.addAttribute("book", book);
 
         return "bookDetails";
     }
 
-//    Add Category
+//
+    @GetMapping("/book/outOfStock/{id}")
+    public String outOfStock(@PathVariable long id, Model model, @RequestParam("details") boolean returnToDetailPage){
+
+        Book book = bookRepository.findById(id).get();
+    //       Here: I am negating whatever the isRented property holds
+        book.setOutOfStock(!book.getOutOfStock());
+
+        bookRepository.save(book);
+        model.addAttribute("employee", book);
+
+        if (returnToDetailPage) {
+            return "redirect:/book/details?id="+id;
+        } else {
+            return "redirect:/";
+        }
+
+    }
+
+
+
+
+    //    Add Category
     @GetMapping("/category/add")
     public String addCategory(Model model) {
         model.addAttribute("category", new Category());
@@ -163,6 +197,15 @@ public class HomeController {
 
 
         return "redirect:/";
+    }
+
+    //    Page to view Book details
+    @RequestMapping("/category/details/{id}")
+    public String viewCate(@PathVariable long id,  Model model) {
+        Category category =categoryRepository.findById(id).get();
+        model.addAttribute("category", category);
+
+        return "categoryDetails";
     }
 
 
