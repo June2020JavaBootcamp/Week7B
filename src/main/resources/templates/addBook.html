@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="base :: metaTags"></div>
+
+    <div th:replace="base :: BootStrapAndMainCSSLinks"></div>
+    <title>[[${submit}]] | Book</title>
+</head>
+<body>
+
+<div th:replace="base :: navbar"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form th:action="@{/book/process}" th:object="${book}" method="post" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{id}"> <br><br>
+
+                <div class="form-group">
+                    <label for="ISBN">ISBN</label><br>
+                    <input type="text" th:field="*{ISBN}" id="ISBN" class="form-control"> <br>
+                    <span th:if="${#fields.hasErrors('ISBN')}" th:errors="*{ISBN}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="title">Title</label><br>
+                    <input type="text" th:field="*{title}" id="title" class="form-control"> <br>
+                    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="author">Author</label><br>
+                    <input type="text" th:field="*{author}" id="author" class="form-control"> <br>
+                    <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label><br>
+                    <select th:field="*{category.id}" id="category" class="form-control">
+                        <option th:each="categ : ${categories}"
+                                th:value="${categ.id}">
+                                [[${categ.name}]]
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity</label><br>
+                    <input type="text" th:field="*{quantity}" id="quantity" class="form-control"> <br>
+                    <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="year">Year</label><br>
+                    <input type="text" th:field="*{year}" id="year" class="form-control"> <br>
+                    <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="book-image">Upload Book Image</label><br>
+                    <input type="file" name="bookImage" id="book-image" class="form-control">
+                </div>
+                <br>
+                <div class="form-group">
+                    <button type="submit">[[${submit}]] a Book!</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="base :: BootStrapScripts"></div>
+</body>
+</html>

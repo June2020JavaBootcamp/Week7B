@@ -15,9 +15,24 @@
     <div class="row">
         <div class="col">
 
-            <h2>Welcome [[${currentUser}]]</h2>
             <p th:if="${message}">[[${message}]]</p>
 
+            <p>List of All Book in our Library DataBase</p>
+
+            <div th:each="category : ${categories}">
+                <p>[[${category.name}]]</p>
+                <div th:each="book : ${category.books}">
+                    <p> ISBN: [[${book.ISBN}]]</p>
+                    <p> Title: [[${book.title}]]</p>
+                    <p> Author: [[${book.author}]]</p>
+                    <p> Category: [[${book.category.name}]]</p>
+                    <p> Quantity: [[${book.quantity}]]</p>
+                    <p> Year: [[${book.year}]]</p>
+
+                    <img th:src="${book.image}" alt="File">
+                    <hr>
+                </div>
+            </div>
 
         </div>
     </div>

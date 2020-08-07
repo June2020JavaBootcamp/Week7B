@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.cloudinary.utils.ObjectUtils;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,10 @@ public class HomeController {
     UserRepository userRepository;
 
     @Autowired
-    ResumeRepository resumeRepository;
+    BookRepository bookRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @Autowired
     CloudinaryConfig cloudinaryConfig;
@@ -30,8 +34,9 @@ public class HomeController {
 //  Home Page
     @RequestMapping("/")
     public String index(Principal principal, Model model) {
-        model.addAttribute("currentUser", principal.getName());
-        return"index";
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
+        return "index";
     }
 
 //  Login Page
@@ -47,20 +52,20 @@ public class HomeController {
     }
 
 //  User Profile
-    @RequestMapping("/profile")
+    @RequestMapping("/account/profile")
     public String admin(Principal principal, Model model) {
         model.addAttribute("currentUser", principal.getName());
         return "profile";
     }
 
 //  Registration
-    @GetMapping("/register")
+    @GetMapping("/account/register")
     public String showRegisterPage(Model model) {
         model.addAttribute("user", new User());
         return "register";
     }
 //  Process Registration
-    @PostMapping("/processregister")
+    @PostMapping("/account/processregister")
     public String processRegister(@Valid @ModelAttribute("user") User user,
                                   BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -81,48 +86,84 @@ public class HomeController {
 
     }
 
-    //    Page to add File
-    @RequestMapping("/resume/add")
+    //    Page to add a Book
+    @RequestMapping("/book/add")
     public String addActor(Model model) {
-        model.addAttribute("resume", new Resume());
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("book", new Book());
+        model.addAttribute("submit", "Add");
+        model.addAttribute("categories", categories);
 
-        return "addResume";
+        return "addBook";
     }
 
-    //    Processing added Actor
-    @RequestMapping("/resume/process")
-    public String process(@ModelAttribute Resume resume,
-                          @RequestParam("file") MultipartFile file ) {
+    //    Processing added Book
+    @RequestMapping("/book/process")
+    public String process(@Valid @ModelAttribute Book book, BindingResult result,
+                          @RequestParam("bookImage") MultipartFile file ) {
 //        First we check if the file submitted is empty
-        if (file.isEmpty()) {
-            return "redirect:/resume/add";
+        if (file.isEmpty() || result.hasErrors()) {
+            return "redirect:/book/add";
         }
+
 //        Then we upload the file to cloudinary
         try {
             Map uploadResult = cloudinaryConfig.upload(file.getBytes(),
                     ObjectUtils.asMap("resourcetype", "auto"));
-            resume.setFileUrl(uploadResult.get("url").toString());
-            resumeRepository.save(resume);
-//            We check if there was any error during upload; if so, redirect to the /add opage
-        } catch (IOException e) {
+            book.setImage(uploadResult.get("url").toString());
 
+            bookRepository.save(book);
+
+//        We check if there was any error during upload; if so, redirect to the /add opage
+        } catch (IOException e) {
             e.getStackTrace();
-            return "redirect:/resume/add";
+            return "redirect:/book/add";
         }
 
 //        If Everything went okay \, we redirect to the home page
-        return "redirect:/resume/viewAll";
+        return "redirect:/";
     }
 
-    //    Page to view Actors
-    @RequestMapping("/resume/viewAll")
-    public String viewActor(Model model) {
-        Iterable<Resume> resumes = resumeRepository.findAll();
-        model.addAttribute("resumes", resumes);
+    //    Page to view Book details
+    @RequestMapping("/book/details/{id}")
+    public String viewActor(@PathVariable long id,  Model model) {
+        Book book = bookRepository.findById(id).get();
+        model.addAttribute("book", book);
 
-        return "displayResume";
+        return "bookDetails";
     }
 
+//    Add Category
+    @GetMapping("/category/add")
+    public String addCategory(Model model) {
+        model.addAttribute("category", new Category());
+        model.addAttribute("submit", "Add");
+
+        return "addCategory";
+    }
+    //    Update Category
+    @GetMapping("/category/update/{id}")
+    public String updateCategory(@PathVariable long id, Model model) {
+        Category category = categoryRepository.findById(id).get();
+        model.addAttribute("category", category);
+        model.addAttribute("submit", "Update");
+
+        return "addCategory";
+    }
+    //    Process Category
+    @PostMapping("/category/process")
+    public String processCategory(@Valid @ModelAttribute Category category, BindingResult result,
+                                  Model model) {
+        if(result.hasErrors()) {
+            model.addAttribute("category", category);
+            model.addAttribute("submit", "Update");
+            return "addCategory";
+        }
+        categoryRepository.save(category);
+
+
+        return "redirect:/";
+    }
 
 
 }

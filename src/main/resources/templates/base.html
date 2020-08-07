@@ -23,7 +23,7 @@
 <!-- NavBar -->
 <div th:fragment="navbar">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" th:href="@{/}">LOGO</a>
+        <a class="navbar-brand" th:href="@{/}">Library</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -35,20 +35,30 @@
                     <a class="nav-link" th:href="@{/}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a sec:authorize="isAuthenticated()" class="nav-link" th:href="@{/profile}">Profile</a>
+                    <a sec:authorize="isAuthenticated()" class="nav-link" th:href="@{/account/profile}">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" th:href="@{/register}">Add New User</a>
+                    <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" th:href="@{account/register}">Add New User</a>
                 </li>
               
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" th:href="@{/resume/viewAll}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Resume
+                    <a class="nav-link dropdown-toggle" th:href="@{/}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Book
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" th:href="@{/resume/add}">Add</a>
-                        <a class="dropdown-item" th:href="@{/resume/viewAll}">View All</a>
+                        <a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/book/add}">Add</a>
+                        <a class="dropdown-item" th:href="@{/}">View All</a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" th:href="@{/category/add}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Category
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{/category/add}">Add</a>
+                        <a class="dropdown-item" th:href="@{/}">View All</a>
                         <div class="dropdown-divider"></div>
                     </div>
                 </li>

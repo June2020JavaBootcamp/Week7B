@@ -11,14 +11,16 @@ public class DataLoader implements CommandLineRunner {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public void run(String... args) {
-        User user = new User("bart", "bart@domain.com", "bart",
-                "Bart", "Simpson", true);
-        Role userRole = new Role("bart", "ROLE_USER");
-        userRepository.save(user);
+//        User user = new User("bart", "bart@domain.com", "bart",
+//                "Bart", "Simpson", true);
+//        Role userRole = new Role("bart", "ROLE_USER");
+//        userRepository.save(user);
 
-        roleRepository.save(userRole);
+//        roleRepository.save(userRole);
         User admin = new User("super", "super@domain.com", "super",
                 "Super", "Hero", true);
 
@@ -27,6 +29,13 @@ public class DataLoader implements CommandLineRunner {
         userRepository.save(admin);
         roleRepository.save(adminRole1);
         roleRepository.save(adminRole2);
+
+        Category category1 = new Category();
+        category1.setName("Fiction");
+        Category category2 = new Category();
+        category2.setName("Non Fiction");
+        categoryRepository.save(category1);
+        categoryRepository.save(category2);
     }
 
 
